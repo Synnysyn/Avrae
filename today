@@ -1,0 +1,33 @@
+!alias today embed 
+<drac2>
+#Basic Setup
+syntax=f'{ctx.prefix}{ctx.alias}'
+thumb=f'-thumb {image}'
+footer=f'-footer "{syntax} | !repair-today 0 (force reset)"'
+
+character().set_cvar_nx("downtimePoints", 0)
+character().set_cvar_nx("totalDtPoints", 0)
+set_uvar_nx("todayTime", 0)
+
+points = int(downtimePoints)
+t_points = int(totalDtPoints)
+last_time = float(todayTime)
+
+curr_time = (time()-1705460400) // 86400
+
+if curr_time < last_time:
+    text=f"{points} / {t_points} DT"
+    return f'embed -title "Not enough time has passed." -desc "Try again later!" -color {color} -f "{text}" {footer} {thumb}'
+
+points += 1
+t_points += 1
+curr_time += 1
+
+character().set_cvar("downtimePoints", points)
+character().set_cvar("totalDtPoints", t_points)
+set_uvar("todayTime", curr_time)
+
+text=f"{points} / {t_points} DT (+1 DT)"
+
+return f'embed -title "Another day full of opportunities." -desc "{character().name} gains some downtime today." -color {color} -f "{text}" {footer} {thumb}'
+</drac2>

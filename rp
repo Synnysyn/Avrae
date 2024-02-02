@@ -1,0 +1,44 @@
+!servalias rp embed 
+<drac2>
+using(RP="b926bac9-5f2f-4c3d-a5d0-db351f920275")
+syntax=f'{ctx.prefix}{ctx.alias}'
+thumb=f'-thumb {image}'
+footer=f'-footer "{syntax} [hours spent roleplaying]"'
+AAA=&ARGS&
+
+character().set_cvar_nx("rpHours", 0)
+character().set_cvar_nx("downtimePoints", 0)
+character().set_cvar_nx("totalDtPoints", 0)
+character().set_cvar_nx("DTCheckpoints", 0)
+
+dt_points = int(downtimePoints)
+dt_max_points = int(totalDtPoints)
+dt_checkpoints = int(DTCheckpoints) +18
+
+#No ARGS
+rp_total = int(rpHours)
+if len(AAA)==0:
+        text = f'Roleplay length: {rp_total}h'
+        return f'embed -title "{name} thinks about RP." -desc "If you did some rp, use !rp X instead." -color {color} -f "{text}" {footer} {thumb}'
+
+#RP XP
+level_input = get('level')
+max_xp, rp_xp = RP.calculate_rp(level_input)
+gained_xp = rp_xp * int(AAA[0])
+current_xp = int(xp) + gained_xp
+rp_total += int(AAA[0])
+
+dtext=""
+if rp_total >= dt_checkpoints:
+    dt_points+=1
+    dt_max_points+=1
+    character().set_cvar("DTCheckpoints", dt_checkpoints)
+    dtext = f"- **Gained additional DT!** Current DT: {dt_points}\n \n"
+character().set_cvar("downtimePoints", dt_points)
+character().set_cvar("totalDtPoints", dt_max_points)
+
+character().set_cvar("xp", "+" + str(current_xp))
+character().set_cvar("rpHours", rp_total)
+text = f'Roleplay length: {rp_total}h'
+return f'embed -title "{name} did RP for {int(AAA[0])}h" -desc "{dtext}Gained {gained_xp} XP and is missing {max_xp - current_xp} XP till next level." -color {color} -f "{text}" {footer} {thumb}'
+</drac2>
