@@ -1,0 +1,40 @@
+!alias cinfo embed 
+<drac2>
+#Basic Setup
+using(S="987a9cee-17d5-4d1f-8b91-c30ebd413320")
+syntax=f'{ctx.prefix}{ctx.alias}'
+thumb=f'-thumb {image}'
+footer=f'-footer "{syntax}"'
+D=[]
+
+#Check Variables
+character().set_cvar_nx("downtimePoints", 0) #DT Aktualne
+character().set_cvar_nx("totalDtPoints", 0) #DT Zdobyte
+character().set_cvar_nx("xp", "+900") #XP
+character().set_cvar_nx("rpHours", 0) #RP
+character().set_cvar_nx("DTCheckpoints", 0) #Ile RP do następnego DT
+character().set_cvar_nx("questTotal", 0) #Questy
+
+#Doświadczenie
+exp_table = {1:0,2:300,3:900,4:2700,5:6500,6:14000,7:23000,8:34000,9:48000,10:64000,11:85000,12:100000,13:120000,14:140000,15:165000,16:195000,17:225000,18:265000,19:305000,20:355000}
+xp_next = exp_table[level + 1]
+_xp = int(xp)
+
+if _xp > xp_next:
+    D.append(" **- You gained a lvl up!**")
+D.append(f"\nExperience: {S.nr_format(_xp)} / {S.nr_format(xp_next)} XP")
+
+#DT
+D.append(f"\nDowntime: {downtimePoints} / {totalDtPoints} DT")
+
+#RP
+D.append(f"\nRoleplay: {rpHours}h / {int(DTCheckpoints) + 18}h")
+
+#Questy
+D.append(f"\nQuests completed: {questTotal}")
+
+text=''.join(D)
+
+
+return f'embed -title "{name} [{level}] - info" -desc "Basic server info about character." -color {color} -f "{text}" {footer} {thumb}'
+</drac2>
