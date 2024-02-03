@@ -1,4 +1,4 @@
-!servalias rp embed 
+!alias rp embed 
 <drac2>
 using(RP="b926bac9-5f2f-4c3d-a5d0-db351f920275")
 syntax=f'{ctx.prefix}{ctx.alias}'
@@ -33,12 +33,12 @@ if rp_total >= dt_checkpoints:
     dt_points+=1
     dt_max_points+=1
     character().set_cvar("DTCheckpoints", dt_checkpoints)
-    dtext = f"- **Gained additional DT!** Current DT: {dt_points}\n \n"
+    dtext = f"- Gained additional DT!\n Current DT: {dt_points} "
 character().set_cvar("downtimePoints", dt_points)
 character().set_cvar("totalDtPoints", dt_max_points)
 
 character().set_cvar("xp", "+" + str(current_xp))
 character().set_cvar("rpHours", rp_total)
-text = f'Roleplay length: {rp_total}h'
-return f'embed -title "{name} did RP for {int(AAA[0])}h" -desc "{dtext}Gained {gained_xp} XP and is missing {max_xp - current_xp} XP till next level." -color {color} -f "{text}" {footer} {thumb}'
+text = f'Total roleplay length: {rp_total}h'
+return f'embed -title "{name} participated in RP." -desc "Gained {gained_xp} XP for {int(AAA[0])}h of RP \n ({max_xp - current_xp} XP needed to level up)\n{dtext}" -color {color} -f "{text}" {footer} {thumb}'
 </drac2>

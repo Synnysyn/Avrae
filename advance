@@ -1,0 +1,36 @@
+!servalias advance embed 
+<drac2>
+# Basic Setup
+args,ch,c = &ARGS&,character(),combat()
+syntax=f'{ctx.prefix}{ctx.alias}'
+thumb=f'-thumb {image}'
+footer=f'-footer "{syntax} [advancement name] [1/2]"'
+channel="https://discord.com/channels/984328257761591357/1203087640396824637"
+
+# JSON podstawy
+JSON = load_json(get_gvar("c8b9de76-d25d-44c0-b815-17fb9684e9f4"))
+advancements=list(JSON.keys())
+adv_str=""
+for A in advancements:
+    adv_str+=f"- {A}\n"
+
+# Zły kanał lub argumenty
+if not c: return f'embed -title "Wrong channel!" -desc "This channel has no active initiative." -color {color} -f "Use {channel} instead." {footer} {thumb}'
+if len(args)==0 or args[0] not in advancements: return f'embed -title "{name} forgot." -desc "You didn\'t choose a valid advancement." -color {color} -f "Possible advancements:\n{adv_str}" {footer} {thumb}'
+if len(args)==1:args.append(0)
+
+ad=JSON[args[0]]
+using(M="f1a6828a-df5a-458a-af0b-b5aba3d662cb")
+_attr=max(get('charismaMod'),get('constitutionMod'),get('dexterityMod'),get('intelligenceMod'),get('strengthMod'),get('wisdomMod'))
+c_total, ad_total, best_char, best_score, total, rolled = M.metadata(args, ad, c, _attr)
+procent = int(((ad["threshold"] - ad_total) / ad["threshold"]) * 100)
+_roll=f" (+{total})"
+_pure=f"**\nDzisiejszy wynik: {total}** ({rolled})\n\n"
+if rolled=="N/A":_roll, _pure="", f'\n{ad["description"]}\n\n'
+f_desc = f'{_pure}Postęp: {ad["threshold"] - ad_total}/{ad["threshold"]} ({procent}% ukończone)\nNajwiększy wkład: {best_char} ({best_score})\nTwój wkład: {c_total}{_roll}\n'
+
+# Wyświetlanie
+_title=f'{name} zajmuje się rozwojem: {ad["name"]}.'
+_desc=f'{f_desc}\n\n**Bonus z wyszkolenia:** {ad["skills"]}\n\n**Oczekiwane Nagrody:**\n{ad["expected rewards"]}'
+return f'embed -title "{_title}" -desc "{_desc}" -color {color} -f "*W ramach użycia tej komendy opisz swoje działania w RP.*" {footer} {thumb}'
+</drac2>

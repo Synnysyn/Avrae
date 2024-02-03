@@ -1,0 +1,16 @@
+{
+    "portal" : {
+        "name" : "Badanie Portalu",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna neque viverra justo nec ultrices dui sapien eget mi. Turpis nunc eget lorem dolor.",
+        "skills" : "Arcana, History, Investigation",
+        "expected rewards" : "- info na temat przeszłości portalu \n- nowy rozwój: Marionetki Gilliana",
+        "threshold" : 800
+    },
+    "warsztat" : {
+        "name" : "Konstrukcja Warsztatu",
+        "description" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Urna neque viverra justo nec ultrices dui sapien eget mi. Turpis nunc eget lorem dolor.",
+        "skills" : "Athletics, Mason's tools, Tinker's tools",
+        "expected rewards" : "- nowa lokacja: warsztat \n- nowy rozwój: Bimbrownictwo",
+        "threshold" : 600
+    }
+}
