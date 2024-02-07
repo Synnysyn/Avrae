@@ -1,0 +1,61 @@
+# ARGS - Arguments Total - base number before roll
+def rzut(args, total):
+    if args[1]=="1" or args[1]=="2":total+=int(args[1])
+    c_roll=randint(1, 20)
+    total+=c_roll
+    return total, c_roll
+
+#Calculates XP needed to lvl up and how much XP should character get on current lvl
+def calculate_rp(level):
+    exp_table = {1:0,2:300,3:900,4:2700,5:6500,6:14000,7:23000,8:34000,9:48000,10:64000,11:85000,12:100000,13:120000,14:140000,15:165000,16:195000,17:225000,18:265000,19:305000,20:355000}
+    rp_reward_table = {(1,4):60,(5,8):150,(9,12):200,(13,16):250,(17,float('inf')):350}
+    exp, rp_reward = exp_table.get(level+1,"Invalid level"), "Invalid level"
+    for key, val in rp_reward_table.items():
+        if key[0] <= level <= key[1]:
+            rp_reward = val
+            break
+    return exp, rp_reward
+
+def metadata(args, ad, c, _attr):
+# METADATA - setup
+    var_advance = f'P--{ad["name"]}'
+    var_char = f'P-{character().name}-{ad["name"]}'
+    var_best_v = f'P-best-val-{ad["name"]}'
+    var_best_n = f'P-best-name-{ad["name"]}'
+    if c.get_metadata(var_advance) == None: c.set_metadata(var_advance, int(ad["threshold"]))
+    if c.get_metadata(var_char) == None: c.set_metadata(var_char, 0)
+    if c.get_metadata(var_best_v) == None: c.set_metadata(var_best_v, 0)
+    if c.get_metadata(var_best_n) == None: c.set_metadata(var_best_n, "")
+    c_total = int(c.get_metadata(var_char))
+    ad_total = int(c.get_metadata(var_advance))
+    best_score = int(c.get_metadata(var_best_v))
+    best_char = c.get_metadata(var_best_n)
+
+    if ad_total == 0: return c_total, ad_total, best_char, best_score, "N/A", "N/A"
+
+    # Rzut
+    using(R="af8ccfb8-fccd-4b8b-bd04-ebd829d314a0")
+    total, rolled = R.rzut(args, _attr)
+    c_total += total
+    ad_total -= total
+    if ad_total <= 0: ad_total = 0
+    if c_total > best_score:
+        c.set_metadata(var_best_v, c_total)
+        c.set_metadata(var_best_n, character().name)
+    c.set_metadata(var_char, c_total)
+    c.set_metadata(var_advance, ad_total)
+
+    best_char = c.get_metadata(var_best_n)
+    best_score = int(c.get_metadata(var_best_v))
+
+    return c_total, ad_total, best_char, best_score, total, rolled
+
+#Changes integer to string with spaces between each three digits
+def nr_format(number):
+    number_str = str(number)
+    part = ""
+    for i in range(len(number_str) - 1, -1, -1):
+        part = number_str[i] + part
+        if (len(part) % 4) == 3 and i != 0:
+            part = " " + part
+    return part
