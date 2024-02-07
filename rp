@@ -1,6 +1,6 @@
 !alias rp embed 
 <drac2>
-using(RP="b926bac9-5f2f-4c3d-a5d0-db351f920275")
+using(RP="af8ccfb8-fccd-4b8b-bd04-ebd829d314a0")
 syntax=f'{ctx.prefix}{ctx.alias}'
 thumb=f'-thumb {image}'
 footer=f'-footer "{syntax} [hours spent roleplaying]"'
@@ -19,7 +19,7 @@ dt_checkpoints = int(DTCheckpoints) +18
 rp_total = int(rpHours)
 if len(AAA)==0:
         text = f'Roleplay length: {rp_total}h'
-        return f'embed -title "{name} thinks about RP." -desc "If you did some rp, use !rp X instead." -color {color} -f "{text}" {footer} {thumb}'
+        return f'embed {thumb} -title "{name} thinks about RP." -desc "If you did some rp, use !rp X instead." -color {color} -f "{text}" {footer}'
 
 #RP XP
 level_input = get('level')
@@ -40,5 +40,5 @@ character().set_cvar("totalDtPoints", dt_max_points)
 character().set_cvar("xp", "+" + str(current_xp))
 character().set_cvar("rpHours", rp_total)
 text = f'Total roleplay length: {rp_total}h'
-return f'embed -title "{name} participated in RP." -desc "Gained {gained_xp} XP for {int(AAA[0])}h of RP \n ({max_xp - current_xp} XP needed to level up)\n{dtext}" -color {color} -f "{text}" {footer} {thumb}'
+return f'embed {thumb} -title "{name} participated in RP." -desc "Gained {gained_xp} XP for {int(AAA[0])}h of RP \n ({max_xp - current_xp} XP needed to level up)\n{dtext}" -color {color} -f "{text}" {footer}'
 </drac2>

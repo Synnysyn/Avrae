@@ -1,0 +1,17 @@
+# ARGS - Arguments Total - base number before roll
+def rzut(args, total):
+    if args[1]=="1" or args[1]=="2":total+=int(args[1])
+    c_roll=randint(1, 20)
+    total+=c_roll
+    return total, c_roll
+
+#Calculates XP needed to lvl up and how much XP should character get on current lvl
+def calculate_rp(level):
+    exp_table = {1:0,2:300,3:900,4:2700,5:6500,6:14000,7:23000,8:34000,9:48000,10:64000,11:85000,12:100000,13:120000,14:140000,15:165000,16:195000,17:225000,18:265000,19:305000,20:355000}
+    rp_reward_table = {(1,4):60,(5,8):150,(9,12):200,(13,16):250,(17,float('inf')):350}
+    exp, rp_reward = exp_table.get(level+1,"Invalid level"), "Invalid level"
+    for key, val in rp_reward_table.items():
+        if key[0] <= level <= key[1]:
+            rp_reward = val
+            break
+    return exp, rp_reward
