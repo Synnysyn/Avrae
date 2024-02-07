@@ -1,0 +1,17 @@
+!servalias pogoda embed 
+<drac2>
+#Basic Setup
+syntax=f'{ctx.prefix}{ctx.alias}'
+thumb=f'-thumb https://cdn.discordapp.com/attachments/1146201490881519646/1204736156449775646/dune_2872822.png?ex=65d5d0fa&is=65c35bfa&hm=8421b91f065a1f2b8cbca83ef49661c61b57fc1d192dd1038042ac2f53a27e9e&'
+footer=f'-footer "{syntax} | komenda dostępna dla wszystkich"'
+
+curr_time = int((time()-1705460400) // 86400)
+JSON = load_json(get_gvar("24bc437f-fd89-415d-88d2-8dc62164f07b"))
+J = JSON["weather"]
+
+w_number = ((curr_time * 7) + 3 + (int(curr_time//len(J)) * len(J))) % len(J)
+
+text=J[w_number-1]
+
+return f'embed {thumb} -title "Pogoda" -desc "Dywinacja Świątyni Świtu na dzisiejszy dzień brzmi:" -color {color} -f "---\n{text}\n---" {footer}'
+</drac2>
