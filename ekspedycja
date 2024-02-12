@@ -1,0 +1,54 @@
+!alias ekspedycja embed 
+<drac2>
+INTERVAL=120 #W sekundach
+
+args,ch = &ARGS&,character()
+thumb=f'-thumb {image}'
+syntax=f'{ctx.prefix}{ctx.alias}'
+footer=f'-footer "{syntax} [start + region] [adv] | made by Synnysyn"'
+ch.set_cvar_nx("eks_region", "ruiny")
+ch.set_cvar_nx("eks_advantage", "None")
+ch.set_cvar_nx("eks_counter", 0)
+ch.set_cvar_nx("eks_time", 0)
+region = eks_region
+advantage = eks_advantage
+counter = int(eks_counter)
+
+if "start" in args: 
+    if len(args) > 1: region=args[1].lower()
+    advantage = None
+    counter = 0
+    ch.set_cvar("eks_region", region)
+    ch.set_cvar("eks_counter", 0)
+    ch.set_cvar("eks_advantage", advantage)
+if "adv" or "-adv" or "advantage" in args:
+    advantage = True
+    ch.set_cvar("eks_advantage", advantage)
+
+JSON = load_json(get_gvar("7ca4f7f7-a6d6-4d91-ac1c-6892af0c09ab"))
+J = JSON["encounters"]
+
+lista = []
+for i in J:
+    if region not in i["region"]:
+        continue
+    for n in range(i["rarity"]):
+        lista.append(i)
+
+if len(lista) == 0:return f'embed -title "{ch.name} prowadzi ekspedycję w nieistniejący region!" -desc "Wybrałeś region bez żadnego potencjalnego spotkania." -color {color} {footer} {thumb}'
+encounter = randchoice(lista)
+
+eks_time=float(eks_time)
+curr_time=time()//1
+if eks_time >= curr_time: return f'embed -title "{ch.name} wciąż eksploruje lokację!" -desc "Jednakże, jesteś pewien że za **{int(eks_time - curr_time)} sekund** będziesz w stanie ruszyć dalej." -color {color} -f "*Jeśli chcesz, opisz w RP swoją dotychczasową eksplorację.*" {footer} {thumb}'
+curr_time+=INTERVAL
+ch.set_cvar("eks_time", curr_time)
+
+using(E="d2874a12-d713-4895-b47b-417508908191")
+desc, text = E.run_enc(ch, encounter, advantage)
+counter +=1
+ch.set_cvar("eks_counter", counter)
+title = f"{ch.name} prowadzi ekspedycję!"
+text += f"\n\n__{region.capitalize()} {counter}/10__"
+return f'embed -title "{title}" -desc "{desc}" -color {color} -f "{text}" {footer} {thumb}'
+</drac2>

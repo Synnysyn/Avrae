@@ -1,0 +1,49 @@
+{
+    "encounters": [
+        {
+            "region": ["pustynia", "ruiny"],
+            "rarity": 5,
+            "typ": "heal",
+            "opis": "Znajdujesz nieskazitelnie czystą fontannę!",
+            "win": "Wnioskujesz, że picie z niego odświeży Cię i uleczy wszelkie rany.",
+            "lose": "Zakładasz, że to po prostu inna, niczym nie wyróżniająca się naturalna fontanna pomimo jej piękna i kontynuujesz.",
+            "reward": "1d12+10",
+            "check_type": "dex save",
+            "DC": "1d12ro<6+5"
+        },
+        {
+            "region": ["ruiny"],
+            "rarity": 2,
+            "typ": "coin",
+            "opis": "Natrafiasz na szafir wciśnięty w skały!",
+            "win": "Udało ci się go podważyć!",
+            "lose": "Jest wciśnięty zbyt głęboko, abyś mógł go wydobyć!",
+            "reward": "10",
+            "check_type": "athletics",
+            "DC": "10"
+        },
+        {
+            "region": ["ruiny"],
+            "rarity": 2,
+            "typ": "damage",
+            "opis": "Trafiasz do obszaru o nieprzyjemnym zapachu.",
+            "win": "Wstrzymujesz oddech na wystarczająco długo, aby uciec z tego okropnego miejsca.",
+            "lose": "Zaczynasz wymiotować i otrzymujesz obrażenia od trucizny.",
+            "reward": "1d4+2",
+            "check_type": "Con save",
+            "DC": "18"
+        },
+        {
+            "region": ["pustynia", "ruiny"],
+            "rarity": 1,
+            "typ": "story",
+            "opis": "Natrafiasz na prymitywny posąg wyrzeźbiony w kamieniu, który wydaje się przypominać ciebie.",
+            "win": "",
+            "lose": "",
+            "reward": "",
+            "check_type": "",
+            "DC": ""
+        }
+    ]
+    
+}

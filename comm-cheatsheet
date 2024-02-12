@@ -59,3 +59,65 @@ def nr_format(number):
         if (len(part) % 4) == 3 and i != 0:
             part = " " + part
     return part
+
+#gets character, advantage parameter and check type, returns vroll
+def roll_stat(ch, a, check_type):
+    ct = check_type.lower()
+    if ct=="acrobatics":return vroll(ch.skills.acrobatics.d20(base_adv=a))
+    if ct=="animal handling":return vroll(ch.skills.animalHandling.d20(base_adv=a))
+    if ct=="arcana":return vroll(ch.skills.arcana.d20(base_adv=a))
+    if ct=="athletics":return vroll(ch.skills.athletics.d20(base_adv=a))
+    if ct=="deception":return vroll(ch.skills.deception.d20(base_adv=a))
+    if ct=="history":return vroll(ch.skills.history.d20(base_adv=a))
+    if ct=="insight":return vroll(ch.skills.insight.d20(base_adv=a))
+    if ct=="intimidation":return vroll(ch.skills.intimidation.d20(base_adv=a))
+    if ct=="investigation":return vroll(ch.skills.investigation.d20(base_adv=a))
+    if ct=="medicine":return vroll(ch.skills.medicine.d20(base_adv=a))
+    if ct=="nature":return vroll(ch.skills.nature.d20(base_adv=a))
+    if ct=="perception":return vroll(ch.skills.perception.d20(base_adv=a))
+    if ct=="performance":return vroll(ch.skills.performance.d20(base_adv=a))
+    if ct=="persuasion":return vroll(ch.skills.persuasion.d20(base_adv=a))
+    if ct=="religion":return vroll(ch.skills.religion.d20(base_adv=a))
+    if ct=="sleight of hand":return vroll(ch.skills.sleightOfHand.d20(base_adv=a))
+    if ct=="stealth":return vroll(ch.skills.stealth.d20(base_adv=a))
+    if ct=="survival":return vroll(ch.skills.survival.d20(base_adv=a))
+    if ct=="strength":return vroll(ch.skills.strength.d20(base_adv=a))
+    if ct=="dexterity":return vroll(ch.skills.dexterity.d20(base_adv=a))
+    if ct=="constitution":return vroll(ch.skills.constitution.d20(base_adv=a))
+    if ct=="intelligence":return vroll(ch.skills.intelligence.d20(base_adv=a))
+    if ct=="wisdom":return vroll(ch.skills.wisdom.d20(base_adv=a))
+    if ct=="charisma":return vroll(ch.skills.charisma.d20(base_adv=a))
+
+    if ct=="str save":return vroll(ch.saves.get("str").d20(base_adv=a))
+    if ct=="dex save":return vroll(ch.saves.get("dex").d20(base_adv=a))
+    if ct=="con save":return vroll(ch.saves.get("con").d20(base_adv=a))
+    if ct=="int save":return vroll(ch.saves.get("int").d20(base_adv=a))
+    if ct=="wis save":return vroll(ch.saves.get("wis").d20(base_adv=a))
+    if ct=="cha save":return vroll(ch.saves.get("char").d20(base_adv=a))
+
+
+
+# Runs encounter, needs character, encounter and if players have advantage, returns description and text
+def run_enc(ch, encounter, advantage):
+    desc = f"{encounter['opis']}"
+    DC = roll(encounter['DC'])
+    check_type = encounter['check_type']
+    
+    typ = encounter['typ'].lower()
+    win = encounter['win']
+    lose = encounter['lose']
+
+    if DC==0: return desc, ""
+
+    using(R="e38d905e-d075-4924-8c5c-17a9ffd888f6")
+    result = R.roll_stat(ch, advantage, check_type)
+    result_val = result.total
+    reward = vroll(encounter['reward'])
+
+    desc += f" Musisz zdać **{check_type.upper()} DC{DC}**!\n"
+    desc += f"\nTwój rzut: {result}"
+    if result_val >= DC and typ=="coin":return desc, f"*{win}*\nWartość łupu: **{reward.total} GP** :coin:"
+    if result_val >= DC and typ=="heal":return desc, f"*{win}*\n**Leczenie:** {reward} HP :mending_heart:\n{ch.name}: <{ch.modify_hp(reward.total, overflow=False)}>"
+    if result_val >= DC:return desc, f"*{win}*"
+    if result_val < DC and typ=="damage":return desc, f"*{lose}*\n**Obrażenia:** {reward} HP :broken_heart:\n{ch.name}: <{ch.modify_hp(-reward.total)}>"
+    if result_val < DC:return desc, f"*{lose}*"
