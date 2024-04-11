@@ -3,11 +3,12 @@
 #Basic Setup
 syntax=f'{ctx.prefix}{ctx.alias}'
 F=f'-footer "{syntax} | Made by Synnysyn"'
-T="Tytuł Spotkania oraz lokacji"
+T="Ekspedycja wiedzie poprzez... Ruiny."
 D1="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et est et neque condimentum tincidunt sed et erat. Nullam ut nulla risus. Suspendisse dictum dapibus ornare. Vestibulum eget ultricies ex. Aenean sed nisi laoreet, semper ipsum vel, scelerisque ligula. Donec mollis at nibh convallis porta."
-D2="Co mają zrobić? Co rzucić? Jaką komendą sprawdzić wynik encountera?"
-D3="Info na temat obecnej ekspedycji, łącznie z łupem itd."
+D2="Survival DC 15"
+D3="[0.5h] [natychmiastowe] [jedna próba]"
+D4=f"Użyj **{ctx.prefix}{ctx.alias} [win/fail]** aby zobaczyć efekt."
 C="#7DDA58"
 
-return f'embed -title "{T}" -desc "{D1}\n---\n{D2}" -color "{C}" -f "\n{D3}" {F}'
+return f'embed -title "{T}" -desc "{D1}\n---\n\n### {D2}\n**{D3}**" -color "{C}" -f "---\n{D4}" {F}'
 </drac2>
