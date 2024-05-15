@@ -1,0 +1,29 @@
+!alias quest embed <drac2>
+_A='questTotal'
+character().set_cvar_nx(_A,0)
+AAA=&ARGS&
+quest_total=int(questTotal)
+if len(AAA)==0:text='is checking his quest journal.';description=f"Quests completed: {quest_total}";return
+def calculate_experience_and_bonus(level,difficulty):
+    F='Invalid level';B=level;G={1:0,2:300,3:900,4:2700,5:6500,6:14000,7:23000,8:34000,9:48000,10:64000,11:85000,12:100000,13:120000,14:140000,15:165000,16:195000,17:225000,18:265000,19:305000,20:355000};H={(1,4):(1000,80,80),(5,8):(2600,230,320),(9,12):(3600,540,660),(13,16):(4400,980,1130),(17,float('inf')):(6200,1700,2030)};I,C,D=G.get(B+1,F),F,0
+    for(E,A)in H.items():
+        if E[0]<=B<=E[1]:C,D=A[0],A[1]if difficulty=='lunar'else A[2];break
+    return I,C,D
+difficulty_input=AAA[0]
+valid_diff=['solar','lunar','lost']
+if difficulty_input not in valid_diff:text='forgot what happened.';description=f"Possible arguments for !quest are: [lunar / solar / lost]";return
+level_input=get('level')
+max_xp,xp_reward,gold=calculate_experience_and_bonus(level_input,difficulty_input)
+if difficulty_input=='lost':gold=0
+current_xp=int(xp)+xp_reward
+quest_total+=1
+character().set_cvar('xp','+'+str(current_xp))
+character().coinpurse.modify_coins(gp=gold)
+character().set_cvar(_A,quest_total)
+text=f"Completed another quest ({questTotal} total)"
+description=f"Gained {xp_reward} XP and is missing {max_xp-current_xp} XP till next level.\nGuild payed him {gold} GP."
+</drac2>
+-color {{color}} 
+-thumb {{image}}
+-title "{{character().name}} {{text}}"
+-desc "{{description}}"
