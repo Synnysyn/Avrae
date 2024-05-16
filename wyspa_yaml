@@ -1,0 +1,56 @@
+# Island Encounters GVAR #
+1:
+  type: Story
+  desc: Lorem Ipsum Dolor Sit Amet
+  level:
+    min: 1
+    max: 20
+2: 
+  type: Combat
+  desc: Lorem Ipsum Dolor Sit Amet (1)
+  bold: Minotaur x4, Cult Fanatic
+  info: Duże pomieszczenie
+  level:
+    min: 5
+    max: 8
+3: 
+  type: Combat
+  desc: Lorem Ipsum Dolor Sit Amet (2)
+  bold: Cyclops x3
+  info: Drużyna jest okrążona
+  level:
+    min: 7
+    max: 9
+4: 
+  type: Miniboss
+  desc: Lorem Ipsum Dolor Sit Amet
+  bold: Woe Strider
+  info: 15 Antycznych Fragmentów za zwycięstwo
+  fragments: 15
+  level:
+    min: 1
+    max: 20
+5: 
+  type: Trap
+  desc: Lorem Ipsum Dolor Sit Amet
+  bold: Dex Save DC 20
+  info: 6d4 bludgeoning w przypadku porażki, połowa po zdaniu
+  level:
+    min: 1
+    max: 20
+6: 
+  type: Check
+  desc: Lorem Ipsum Dolor Sit Amet (1)
+  bold: Arcana DC 10
+  fragments: 3
+  level:
+    min: 1
+    max: 10
+7: 
+  type: Check
+  desc: Lorem Ipsum Dolor Sit Amet (2)
+  bold: Survival DC 15
+  fragments: 5
+  level:
+    min: 7
+    max: 20

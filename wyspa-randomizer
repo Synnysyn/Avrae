@@ -70,4 +70,5 @@ def travel(lvl, history, result = False, syntax = "!mine"):
     encounter["T"] = enc_type
     encounter["D1"] = history
     encounter["D3"] = h_nr
+
     return encounter, history
