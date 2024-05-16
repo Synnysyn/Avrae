@@ -1,16 +1,13 @@
 <drac2>
-# Generate next encounter from JSON list
-def travel(lvl, history, result = False, syntax = "!mine"):
-    #Gvary dla poszczególnych tabel.
-    types = {
-        "Story": "GVAR",
-        "Combat": "GVAR",
-        "Miniboss": "GVAR",
-        "Trap": "GVAR",
-        "Check": "GVAR",
-        "Treasure": "GVAR"
-    }
+###########################
+# TRAVEL GVAR aka WYSPA
+###########################
 
+def travel(gvar, lvl, history, result = False, syntax = "!mine"):
+    #Gvary
+    enc_list_raw = load_yaml(get_gvar("b448b3e8-1895-48a0-8373-b82b792b027a"))
+
+    
     # Definicja encountera, który będzie zwracany razem z wpisem do historii
     encounter = {
         "T": "Tytuł",
@@ -57,18 +54,64 @@ def travel(lvl, history, result = False, syntax = "!mine"):
 
     if len(history) == 4 and h_nr["Combat"] == 0: enc_type = "Combat"
     if len(history) == 8 and h_nr["Combat"] <= 1: enc_type = "Combat"
-    if len(history) <= 8 and h_nr["Miniboss"] == 0 and randint(20) == 0: enc_type = "Miniboss"
+    if len(history) <= 8 and h_nr["Miniboss"] == 0 and randint(30) == 0: enc_type = "Miniboss"
     if len(history) == 0: enc_type = "Story"
     if len(history) == 9: enc_type = "Treasure"
     if len(history) == 10:
         enc_type = "Story"
         history = {}
     
-    history[len(history)+1] = {"type": enc_type,"id":randint(30)}
+    
+    # Wyfiltrowanie nowego encountera
+    viable_enc = []
+    for i in enc_list_raw:
+        if enc_list_raw[i]["type"] == enc_type:
+            viable_enc.append(enc_list_raw[i])
+    
+    new_enc = randchoice(viable_enc)
+
+    # Przygotowanie encountera do wyświetlenia
+    encounter["D1"] = new_enc["desc"]
+    encounter["D4"] = f"{(len(history)+1)*10}% Ukończonej Ekspedycji"
+    if enc_type == "Story":
+        encounter["T"] = "Ekspedycja przemierza wyspę."
+        encounter["D2"] = ""
+        encounter["D3"] = "*Możesz odegrać scenkę w rp w oczekiwaniu na następne wydarzenie.*"
+        encounter["C"] = "#4169E1"
+
+    if enc_type == "Combat":
+        encounter["T"] = "Ekspedycja napotyka wrogów!"
+        encounter["D2"] = new_enc["bold"]
+        encounter["D3"] = new_enc["info"]
+        encounter["C"] = "#CE2029"
+
+    if enc_type == "Miniboss":
+        encounter["T"] = "Ekspedycja trafia na antyczne zło!"
+        encounter["D2"] = new_enc["bold"]
+        encounter["D3"] = new_enc["info"]
+        encounter["C"] = "#9f00C5"
+    
+    if enc_type == "Trap":
+        encounter["T"] = "Ekspedycja wpada w kłopoty."
+        encounter["D2"] = new_enc["bold"]
+        encounter["D3"] = new_enc["info"]
+        encounter["C"] = "#367588"
+    
+    if enc_type == "Check":
+        encounter["T"] = "Ekspedycja odnajduje coś ciekawego."
+        encounter["D2"] = new_enc["bold"]
+        encounter["D3"] = f"Użyj **{syntax} [win/fail]** aby zobaczyć efekt."
+        encounter["C"] = "#556B2F"
+    
+    if enc_type == "Treasure":
+        encounter["T"] = "Ekspedycja dotarła do końca."
+        encounter["D2"] = "Ekspedycja została zakończona sukcesem."
+        encounter["D3"] = new_enc["info"]
+        encounter["C"] = "#DAA520"
+
+
+    
 
     # Przekazanie Info
-    encounter["T"] = enc_type
-    encounter["D1"] = history
-    encounter["D3"] = h_nr
-
+    history[len(history)+1] = {"type": enc_type,"id":randint(30)}
     return encounter, history

@@ -1,12 +1,13 @@
 !alias wyspa embed 
 <drac2>
 using(A="48aebce8-76cc-4057-9853-abd809e14008")
+enc_table="b448b3e8-1895-48a0-8373-b82b792b027a"
 #Basic Setup
 args,ch = &ARGS&,character()
 syntax=f'{ctx.prefix}{ctx.alias}'
 F=f'-footer "{syntax} | Made by Synnysyn"'
 ch.set_cvar_nx("islandHistory", dump_yaml({}))
-E,history = A.travel(7,get('islandHistory'),False,syntax)
+E,history = A.travel(enc_table,7,get('islandHistory'),False,syntax)
 ch.set_cvar("islandHistory", dump_yaml(history))
 T,D1,D2,D3,D4,C = E["T"],E["D1"],E["D2"],E["D3"],E["D4"],E["C"]
 return f'embed -title "{T}" -desc "{D1}\n---\n\n### {D2}\n**{D3}**" -color "{C}" -f "---\n{D4}" {F}'

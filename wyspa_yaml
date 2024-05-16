@@ -34,7 +34,7 @@
   type: Trap
   desc: Lorem Ipsum Dolor Sit Amet
   bold: Dex Save DC 20
-  info: 6d4 bludgeoning w przypadku porażki, połowa po zdaniu
+  info: "6d4 bludgeoning w przypadku porażki, połowa po zdaniu"
   level:
     min: 1
     max: 20
@@ -51,6 +51,14 @@
   desc: Lorem Ipsum Dolor Sit Amet (2)
   bold: Survival DC 15
   fragments: 5
+  level:
+    min: 7
+    max: 20
+8: 
+  type: Treasure
+  desc: Lorem Ipsum Dolor Sit Amet
+  info: W skarbcu odnajdujecie 20 Antycznych Fragmentów.
+  fragments: 20
   level:
     min: 7
     max: 20
