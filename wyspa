@@ -1,14 +1,63 @@
 !alias wyspa embed 
 <drac2>
+using(A="48aebce8-76cc-4057-9853-abd809e14008")
 #Basic Setup
+args,ch = &ARGS&,character()
 syntax=f'{ctx.prefix}{ctx.alias}'
 F=f'-footer "{syntax} | Made by Synnysyn"'
-T="Ekspedycja wiedzie poprzez... Ruiny."
-D1="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et est et neque condimentum tincidunt sed et erat. Nullam ut nulla risus. Suspendisse dictum dapibus ornare. Vestibulum eget ultricies ex. Aenean sed nisi laoreet, semper ipsum vel, scelerisque ligula. Donec mollis at nibh convallis porta."
-D2="Survival DC 15"
-D3="[0.5h] [natychmiastowe] [jedna próba]"
-D4=f"Użyj **{ctx.prefix}{ctx.alias} [win/fail]** aby zobaczyć efekt."
-C="#7DDA58"
-
+ch.set_cvar_nx("islandHistory", dump_yaml({}))
+E,history = A.travel(7,get('islandHistory'),False,syntax)
+ch.set_cvar("islandHistory", dump_yaml(history))
+T,D1,D2,D3,D4,C = E["T"],E["D1"],E["D2"],E["D3"],E["D4"],E["C"]
 return f'embed -title "{T}" -desc "{D1}\n---\n\n### {D2}\n**{D3}**" -color "{C}" -f "---\n{D4}" {F}'
 </drac2>
+
+
+
+###
+Rodzaje spotkań:
+- Story (Story)
+- Combat (Combat)
+- Miniboss (Miniboss)
+- Pułapka (Trap)
+- Test (Check)
+- Skarbiec (Treasure)
+
+Pierwsze to zawsze Story
+Ostatnie to zawsze Skarbiec
+Miniboss ma niską szansę, nie jest gwarantowany
+Combaty są zawsze 2 -> pierwszy ma pity na 5 rzucie, drugi ma pity na 9 rzucie, ale mogą zostać zastąpione przez minibossa
+w ciągu 8 rzutów w środku, Story, Pułapka lub Nagroda nie może się pojawić więcej niż 3 razy
+
+Story
+- Text flavorowy, bez checku. Przysłowiowe puste pomieszczenie.
+
+Combat
+- Bez zaskoczenia, to toksyczna mechanika.
+- Ucieczka oznacza koniec ekspedycji
+- Bez nagród
+
+Miniboss
+- Brak zaskoczenia
+- Dużo trudniejszy encounter
+- Duża nagroda za zwycięstwo
+- Ucieczka mogłaby być niemożliwa? więzienie planarne i teleportacyjne
+- Nie jest gwarantowany, ma niską szansę na wystąpienie
+
+Pułapka
+- Gracze wykonują podany save, lub otrzymują obrażenia albo negatywny efekt
+
+Test
+- Jedna osoba wykonuje check na podanych zasadach, a następnie w zależności od wyniku wpisuje odpowiednią komendę
+- W przypadku powodzenia postaci otrzymują nagrodę lub buffa
+- W przypadku niepowodzenia lub zignorowania postaci mogą otrzymać karę
+
+Skarbiec
+- Ostatnie pomieszczenie w ekspedycji, zawierające dużą nagrodę bez checku
+
+
+Dodatkowe sugestie
+- Rebranding na Wyspy Cienia czy coś podobnego, będzie większa różnorodność pomieszczeń i wrogów
+- Brak globalnych poziomów trudności, natomiast wszystkie spotkania mają wewnętrzne przedziały, na jakich poziomach się pojawiają
+- Wszystkie encountery są balansowane na trzyosobową grupę, a poziom trudności zależy od poziomu osoby prowadzącej ekspedycję
+###

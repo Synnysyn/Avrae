@@ -1,0 +1,73 @@
+<drac2>
+# Generate next encounter from JSON list
+def travel(lvl, history, result = False, syntax = "!mine"):
+    #Gvary dla poszczególnych tabel.
+    types = {
+        "Story": "GVAR",
+        "Combat": "GVAR",
+        "Miniboss": "GVAR",
+        "Trap": "GVAR",
+        "Check": "GVAR",
+        "Treasure": "GVAR"
+    }
+
+    # Definicja encountera, który będzie zwracany razem z wpisem do historii
+    encounter = {
+        "T": "Tytuł",
+        "D1": "Opis",
+        "D2": "Info na temat checku",
+        "D3": "Tagi",
+        "D4": "Pomoc, dolny pasek",
+        "C": "#7DDA58"
+    }
+
+    encounter = {
+        "T": "Ekspedycja wiedzie poprzez... Ruiny.",
+        "D1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et est et neque condimentum tincidunt sed et erat. Nullam ut nulla risus. Suspendisse dictum dapibus ornare. Vestibulum eget ultricies ex. Aenean sed nisi laoreet, semper ipsum vel, scelerisque ligula. Donec mollis at nibh convallis porta.",
+        "D2": "Survival DC 15",
+        "D3": "[0.5h] [natychmiastowe] [jedna próba]",
+        "D4": f"Użyj **{syntax} [win/fail]** aby zobaczyć efekt.",
+        "C": "#7DDA58"
+    }
+
+    # Sprawdzenie historii
+    enc_type = ""
+    history = load_yaml(history)
+    h_nr = {"Story": 0,"Combat": 0,"Miniboss": 0,"Trap": 0,"Check": 0,"Treasure": 0}
+    for i in history:
+        h_nr[history[i]["type"]] += 1
+
+    # Jeżeli encounter potrzebuje informacji zwrotnej, to przesyłamy odpowiedni tekst
+    if result == "W":
+        encounter["T"] = "Wygrałeś"
+        return encounter, history
+    
+    if result == "F":
+        encounter["T"] = "Przegrałeś"
+        return encounter, history
+
+    # Wybór encountera
+    options = []
+    if h_nr["Story"] < 3: options.append("Story")
+    if h_nr["Check"] < 3: options.append("Check")
+    if h_nr["Trap"] < 3: options.append("Trap")
+    if h_nr["Combat"] == 0 and len(history) <= 4: options.append("Combat")
+    if h_nr["Combat"] <= 1 and 4 < len(history) <= 8: options.append("Combat")
+    enc_type = randchoice(options)
+
+    if len(history) == 4 and h_nr["Combat"] == 0: enc_type = "Combat"
+    if len(history) == 8 and h_nr["Combat"] <= 1: enc_type = "Combat"
+    if len(history) <= 8 and h_nr["Miniboss"] == 0 and randint(20) == 0: enc_type = "Miniboss"
+    if len(history) == 0: enc_type = "Story"
+    if len(history) == 9: enc_type = "Treasure"
+    if len(history) == 10:
+        enc_type = "Story"
+        history = {}
+    
+    history[len(history)+1] = {"type": enc_type,"id":randint(30)}
+
+    # Przekazanie Info
+    encounter["T"] = enc_type
+    encounter["D1"] = history
+    encounter["D3"] = h_nr
+    return encounter, history
