@@ -3,6 +3,7 @@
 #Basic Setup
 using(S="987a9cee-17d5-4d1f-8b91-c30ebd413320")
 using(M="a03534d1-5faf-413a-b895-e70186920c91")
+using(X="bd5e6af1-55e9-4c5b-b814-8f9b447091e7")
 syntax=f'{ctx.prefix}{ctx.alias} [amount / xp / gp + amount]'
 thumb=f'-thumb {image}'
 suffix=f'-color {color} -footer "{syntax}" {thumb}'
@@ -19,9 +20,9 @@ if len(args)==0: return f'embed -title "{name}\'s Fragments" -desc "Ancient Frag
 if args[0]=="xp": 
     if af<110: return f'embed -title "{name} looks at the counter." -desc "You don\'t have enough Ancient Fragments." {suffix}'
     for (L,H) in REWARDS.items():
-        if L[0]<=lvl<=L[1]: ch.set_cvar('xp','+'+str(_xp+H));break
-    ch.set_cvar("ancientFragments",af-110)
-    return f'embed -title "{name} buys a blessing." -desc "### Experience gained: {S.nr_format(int(xp)-_xp)} XP\nAncient Fragments: {af-110} / 200 (-110)" {suffix}'
+        if L[0]<=lvl<=L[1]: X.modify_xp(H,"[value] Hunter's Blessing"); _xp=H;break
+    ch.set_cvar("ancientFragments",af-110); ch.set_cvar_nx("xp", "+900")
+    return f'embed -title "{name} buys a blessing." -desc "### Experience gained: {S.nr_format(_xp)} XP\nAncient Fragments: {af-110} / 200 (-110)" {suffix}'
 if args[0]=="gp" and len(args)==1: return f'embed -title "{name} looks at the counter." -desc "You forgot to specify how much GP do you want to buy." {suffix}'
 if args[0]=="gp" and len(args)==2:
     _gp, _af = M.merchant(gp, int(args[1]), af, lvl)
