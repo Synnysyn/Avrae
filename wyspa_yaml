@@ -69,3 +69,75 @@
   level:
     min: 7
     max: 20
+9: 
+  type: Combat
+  desc: Natrafiliście na skraj gęstego lasu, blokującego dalszą drogę. Próbując przedostać się głębiej zaczeliście przeciskać się między drzewami, splątanymi pnączami i krzewami. Nagle ziemia zadrżała, a w waszym kierunku poszybowała jedna z gałęzi, gdy okoliczne rośliny obudziły się do życia.
+  bold: Awakened Tree x2, Vine Blight
+  info: Walka w leśnej gęstwinie
+  level:
+    min: 3
+    max: 5
+10: 
+  type: Combat
+  desc: Idąc przez mgłę napotykacie stosy kości, gotowe do spalenia w rytualnym obrządku. Jednakże, ku waszemu zdziwieniu, miejsce zdaje się być porzucone, a ogień nigdy nie osmalił kości. Dopiero po kilku krokach naprzód znajdujecie szkielet znachora, podnoszący się z ziemi i wskazujący was palcem, a dwie wielkie zwały kości zaczynają sunąć w waszym kierunku.
+  bold: Skeletal Swarm x2, Skeletal Alchemist
+  info: Walka w ciemności, na ponurym polu.
+  level:
+    min: 3
+    max: 5
+11: 
+  type: Combat
+  desc: Wasza droga wiedzie przez krótką jaskinię o suchym, żwirowatym podłożu. W jej połowie do waszych uszu dobiega odgłos przesypywanych kamyczków, a spośród podłoża zaczyna wysuwać się chmara skolopendr, w towarzystwie dwóch innych, ogromnych owadów.
+  bold: Ankheg x2, Swarm of Insects (Centipedes)
+  info: Walka w wąskim tunelu.
+  level:
+    min: 3
+    max: 5
+12: 
+  type: Combat
+  desc: Wchodzicie do wnętrza porzuconego domostwa, a na podłogach i ścianach dalej widać ślady odbytej wewnątrz walki. Ciał i kości już nie ma, prawdopodobnie zostały zabrane przez dzikie bestie. Jednakże po chwili przeszukiwania pomieszczenia dzieje się coś niespodziewanego - kawałki zbroi porozrzucane po podłodze zaczynają składać się ponownie, gotowe do walki z intruzami.
+  bold: Animated Armor x4
+  info: Walka w niedużym pomieszczeniu.
+  level:
+    min: 3
+    max: 5
+13: 
+  type: Combat
+  desc: Spacerując drogą między martwymi polami do waszych uszu dobiega dziwny odgłos, przypominający ujadanie zmutowanych psów. Zaledwie po chwili spośród mgły za waszymi plecami wysuwają się sylwetki gnolli, biegnących w waszym kierunku.
+  bold: Gnoll Flesh Gnawer x4
+  info: Walka na polnej drodze.
+  level:
+    min: 3
+    max: 5
+14: 
+  type: Combat
+  desc: Zbliżacie się do skalnej, wysokiej ściany, górującej nad okolicą. Rozmyślając nad dalszą drogą wasza obecność została zauważona przez zamieszkałe na jej szczycie stworzenia, a po chwili wśród szelestu piór pikują na was hippogryfy.
+  bold: Hippogriff x4
+  info: Walka pod skalną ścianą.
+  level:
+    min: 3
+    max: 5
+15: 
+  type: Combat
+  desc: Mokradła na skraju wyspy są zamieszkane przez przeróżne stworzenia, niektóre nadzwyczaj terytorialne. Po pewnym czasie drogi wąskimi ścieżkami napotykacie opór, gdy trójka ryboludzi patrolujących tę okolicę natrafiła na wasz trop.
+  bold: Locathah Hunter x3, Giant Toad
+  info: Walka na bagnach.
+  level:
+    min: 4
+    max: 6
+16: 
+  type: Combat
+  desc: Waszą uwagę przykuł stary tunel górniczy, prowadzący w głąb góry. Zniszczone kilofy, przewalone wózki i rozbite lampy zwiastują zagrożenie, które udaje wam się dostrzec w ostatniej chwili. Niemal niewidzialna ścianka żelatynowej kostki zaczyna się ruszać, gdy stworzenia szarżują na was.
+  bold: Gelatinous Cube x3
+  info: Walka w tunelu.
+  level:
+    min: 4
+    max: 6
+17: 
+  type: Combat
+  desc: 
+  bold: Gnoll Pack Lord x3, Gnoll Flesh Gnawer
+  info: 
+  level:
+    min: 4
+    max: 6
