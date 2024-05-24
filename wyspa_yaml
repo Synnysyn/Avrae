@@ -37,7 +37,7 @@
   type: Trap
   desc: Lorem Ipsum Dolor Sit Amet
   bold: Dex Save DC 20
-  info: "6d4 bludgeoning w przypadku porażki, połowa po zdaniu"
+  info: Otrzymujecie [6d4+4] obrażeń (bludgeoning) w przypadku porażki, połowa po zdaniu
   level:
     min: 1
     max: 20
@@ -64,7 +64,7 @@
 8: 
   type: Treasure
   desc: Lorem Ipsum Dolor Sit Amet
-  info: W skarbcu odnajdujecie 20 Antycznych Fragmentów.
+  info: W skarbcu odnajdujecie [10+2d6] Antycznych Fragmentów i [1+1d4] Mikstur Leczenia (Common).
   fragments: 20
   level:
     min: 7
@@ -130,14 +130,6 @@
   desc: Waszą uwagę przykuł stary tunel górniczy, prowadzący w głąb góry. Zniszczone kilofy, przewalone wózki i rozbite lampy zwiastują zagrożenie, które udaje wam się dostrzec w ostatniej chwili. Niemal niewidzialna ścianka żelatynowej kostki zaczyna się ruszać, gdy stworzenia szarżują na was.
   bold: Gelatinous Cube x3
   info: Walka w tunelu.
-  level:
-    min: 4
-    max: 6
-17: 
-  type: Combat
-  desc: 
-  bold: Gnoll Pack Lord x3, Gnoll Flesh Gnawer
-  info: 
   level:
     min: 4
     max: 6

@@ -3,6 +3,15 @@
 # TRAVEL GVAR aka WYSPA
 ###########################
 
+def ext_roll(text):
+    while '[' in text and ']' in text:
+        start_idx = text.index('[')
+        end_idx = text.index(']', start_idx)
+        to_roll = text[start_idx+1:end_idx]
+        text = text[:start_idx] + roll(to_roll) + text[end_idx+1:]
+    return text
+
+
 def travel(gvar, lvl, history, result = False, syntax = "!mine"):
     #Gvary
     enc_list_raw = load_yaml(get_gvar("b448b3e8-1895-48a0-8373-b82b792b027a"))
@@ -54,7 +63,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
 
     if len(history) == 4 and h_nr["Combat"] == 0: enc_type = "Combat"
     if len(history) == 8 and h_nr["Combat"] <= 1: enc_type = "Combat"
-    if len(history) <= 8 and h_nr["Miniboss"] == 0 and randint(30) == 0: enc_type = "Miniboss"
+    if len(history) <= 8 and h_nr["Miniboss"] == 0 and randint(48) == 0: enc_type = "Miniboss"
     if len(history) == 0: enc_type = "Story"
     if len(history) == 9: enc_type = "Treasure"
     if len(history) == 10:
@@ -94,7 +103,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
     if enc_type == "Trap":
         encounter["T"] = "Ekspedycja wpada w kłopoty."
         encounter["D2"] = new_enc["bold"]
-        encounter["D3"] = new_enc["info"]
+        encounter["D3"] = ext_roll(new_enc["info"])
         encounter["C"] = "#367588"
     
     if enc_type == "Check":
@@ -106,7 +115,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
     if enc_type == "Treasure":
         encounter["T"] = "Ekspedycja dotarła do końca."
         encounter["D2"] = "Ekspedycja została zakończona sukcesem."
-        encounter["D3"] = new_enc["info"]
+        encounter["D3"] = ext_roll(new_enc["info"])
         encounter["C"] = "#DAA520"
 
 
