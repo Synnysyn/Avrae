@@ -2,9 +2,27 @@
 # Island Encounters GVAR #
 ##########################
 
-1:
+101:
   type: Story
   desc: Lorem Ipsum Dolor Sit Amet
+  level:
+    min: 1
+    max: 20
+102:
+  type: Story
+  desc: Lorem Ipsum Dolor Sit Amet 2
+  level:
+    min: 1
+    max: 20
+103:
+  type: Story
+  desc: Lorem Ipsum Dolor Sit Amet 3
+  level:
+    min: 1
+    max: 20
+104:
+  type: Story
+  desc: Lorem Ipsum Dolor Sit Amet 4
   level:
     min: 1
     max: 20
@@ -23,7 +41,7 @@
   info: Drużyna jest okrążona
   level:
     min: 7
-    max: 9
+    max: 19
 4: 
   type: Miniboss
   desc: Lorem Ipsum Dolor Sit Amet
@@ -33,9 +51,33 @@
   level:
     min: 1
     max: 20
-5: 
+501: 
   type: Trap
   desc: Lorem Ipsum Dolor Sit Amet
+  bold: Dex Save DC 20
+  info: Otrzymujecie [6d4+4] obrażeń (bludgeoning) w przypadku porażki, połowa po zdaniu
+  level:
+    min: 1
+    max: 20
+502: 
+  type: Trap
+  desc: Lorem Ipsum Dolor Sit Amet 2
+  bold: Dex Save DC 20
+  info: Otrzymujecie [6d4+4] obrażeń (bludgeoning) w przypadku porażki, połowa po zdaniu
+  level:
+    min: 1
+    max: 20
+503: 
+  type: Trap
+  desc: Lorem Ipsum Dolor Sit Amet 3
+  bold: Dex Save DC 20
+  info: Otrzymujecie [6d4+4] obrażeń (bludgeoning) w przypadku porażki, połowa po zdaniu
+  level:
+    min: 1
+    max: 20
+504: 
+  type: Trap
+  desc: Lorem Ipsum Dolor Sit Amet 4
   bold: Dex Save DC 20
   info: Otrzymujecie [6d4+4] obrażeń (bludgeoning) w przypadku porażki, połowa po zdaniu
   level:
@@ -54,6 +96,16 @@
 7: 
   type: Check
   desc: Lorem Ipsum Dolor Sit Amet (2)
+  bold: Survival DC 15
+  win: Ślady prowadzą do skarbu! (5 AF)
+  fail: Zgubiłeś trasę.
+  fragments: 5
+  level:
+    min: 7
+    max: 20
+701: 
+  type: Check
+  desc: Lorem Ipsum Dolor Sit Amet (3)
   bold: Survival DC 15
   win: Ślady prowadzą do skarbu! (5 AF)
   fail: Zgubiłeś trasę.
@@ -132,4 +184,4 @@
   info: Walka w tunelu.
   level:
     min: 4
-    max: 6
+    max: 14

@@ -1,14 +1,20 @@
 !alias wyspa embed 
 <drac2>
-using(A="48aebce8-76cc-4057-9853-abd809e14008")
-enc_table="b448b3e8-1895-48a0-8373-b82b792b027a"
-#Basic Setup
-args,ch = &ARGS&,character()
+using(A="48aebce8-76cc-4057-9853-abd809e14008")  #ENGINE
+enc_table="b448b3e8-1895-48a0-8373-b82b792b027a" #TABLE
+INTERVAL=30 #COOLDOWN (in sec)
+args,ch,new_exp,result = &ARGS&,character(),False,False
 syntax=f'{ctx.prefix}{ctx.alias}'
-F=f'-footer "{syntax} | Made by Synnysyn"'
-ch.set_cvar_nx("islandHistory", dump_yaml({}))
-E,history = A.travel(enc_table,7,get('islandHistory'),False,syntax)
-ch.set_cvar("islandHistory", dump_yaml(history))
+F=f'-footer "{syntax} | {syntax} start | Made by Synnysyn"'
+ch.set_cvar_nx("expHistory", dump_yaml({}))
+ch.set_cvar_nx("expFragments", 0)
+ch.set_cvar_nx("expTime", 0)
+if "start" in args: new_exp = True
+if "win" in args or "fail" in args: result = args[0]
+E,history,frg,exp_time = A.travel(enc_table,get('level'),get('expHistory'),result,syntax,get('expFragments'),get('expTime'),new_exp,INTERVAL)
+ch.set_cvar("expHistory", dump_yaml(history))
+ch.set_cvar("expFragments", frg)
+ch.set_cvar("expTime", exp_time)
 T,D1,D2,D3,D4,C = E["T"],E["D1"],E["D2"],E["D3"],E["D4"],E["C"]
 return f'embed -title "{T}" -desc "{D1}\n---\n\n### {D2}\n**{D3}**" -color "{C}" -f "---\n{D4}" {F}'
 </drac2>

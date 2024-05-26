@@ -12,10 +12,15 @@ def ext_roll(text):
     return text
 
 
-def travel(gvar, lvl, history, result = False, syntax = "!mine"):
+def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, exp_time = 0, new_exp = False, INTERVAL=300):
     #Gvary
     enc_list_raw = load_yaml(get_gvar("b448b3e8-1895-48a0-8373-b82b792b027a"))
+    fragments = int(fragments)
 
+    if new_exp == True:
+        history = {}
+        fragments = 0
+        exp_time = 0
     
     # Definicja encountera, który będzie zwracany razem z wpisem do historii
     encounter = {
@@ -27,15 +32,6 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
         "C": "#7DDA58"
     }
 
-    encounter = {
-        "T": "Ekspedycja wiedzie poprzez... Ruiny.",
-        "D1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum et est et neque condimentum tincidunt sed et erat. Nullam ut nulla risus. Suspendisse dictum dapibus ornare. Vestibulum eget ultricies ex. Aenean sed nisi laoreet, semper ipsum vel, scelerisque ligula. Donec mollis at nibh convallis porta.",
-        "D2": "Survival DC 15",
-        "D3": "[0.5h] [natychmiastowe] [jedna próba]",
-        "D4": f"Użyj **{syntax} [win/fail]** aby zobaczyć efekt.",
-        "C": "#7DDA58"
-    }
-
     # Sprawdzenie historii
     enc_type = ""
     history = load_yaml(history)
@@ -44,13 +40,45 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
         h_nr[history[i]["type"]] += 1
 
     # Jeżeli encounter potrzebuje informacji zwrotnej, to przesyłamy odpowiedni tekst
-    if result == "W":
-        encounter["T"] = "Wygrałeś"
-        return encounter, history
+    if result == "win":
+        if history == {}: return
+        last_item = list(history.values())[-1]
+        last_enc = enc_list_raw[last_item['id']]
+        if last_enc["type"] == "Check":
+            fragments += last_enc["fragments"]
+            encounter["T"] = "Odnieśliście sukces!"
+            encounter["D1"] = last_enc["desc"]
+            encounter["D2"] = last_enc["win"]
+            encounter["D3"] = f"Możesz kontynuuować ekspedycję."
+            encounter["D4"] = f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%"
+            encounter["C"] = "#556B2F"
+            return encounter, history, fragments, exp_time
     
-    if result == "F":
-        encounter["T"] = "Przegrałeś"
-        return encounter, history
+    if result == "fail":
+        if history == {}: return
+        last_item = list(history.values())[-1]
+        last_enc = enc_list_raw[last_item['id']]
+        if last_enc["type"] == "Check":
+            encounter["T"] = "Odnieśliście porażkę."
+            encounter["D1"] = last_enc["desc"]
+            encounter["D2"] = last_enc["fail"]
+            encounter["D3"] = f"Możesz kontynuuować ekspedycję."
+            encounter["D4"] = f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%"
+            encounter["C"] = "#556B2F"
+            return encounter, history, fragments, exp_time
+
+    exp_time=float(exp_time)
+    curr_time=time()//1
+    if exp_time >= curr_time:
+        encounter = {
+        "T": "Ekspedycja podróżuje.",
+        "D1": "",
+        "D2": f"Użyj komendy ponownie <t:{round(exp_time)}:R>",
+        "D3": "Możesz odegrać scenkę w rp w oczekiwaniu na następne wydarzenie.",
+        "D4": f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%",
+        "C": "#556B2F"
+        }
+        return encounter, history, fragments, exp_time
 
     # Wybór encountera
     options = []
@@ -69,23 +97,41 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
     if len(history) == 10:
         enc_type = "Story"
         history = {}
+        fragments = 0
+        exp_time = 0
     
     
     # Wyfiltrowanie nowego encountera
+    all_ids = [value['id'] for value in history.values()]
     viable_enc = []
-    for i in enc_list_raw:
-        if enc_list_raw[i]["type"] == enc_type:
-            viable_enc.append(enc_list_raw[i])
+    for key, value in enc_list_raw.items():
+        if value["type"] == enc_type and value["level"]["min"] <= lvl <= value["level"]["max"]:
+            if key not in all_ids:
+                value_with_key = value.copy()
+                value_with_key["key"] = key
+                viable_enc.append(value_with_key)
     
+    if viable_enc == []:
+        encounter = {
+        "T": "Nic nie znaleźliście.",
+        "D1": "Mimo usilnych starań, nie udało się znaleźć godnego was zagrożenia, zagadki lub nagrody. Może spróbuj na innym poziomie?",
+        "D2": "Ekspedycja nieudana.",
+        "D3": f"Nie znaleziono wyzwania {enc_type} na poziom prowadzącego.",
+        "D4": "Postęp: Ekspedycja porzucona.",
+        "C": "#4169E1"
+        }
+        exp_time = time()//1 + INTERVAL
+        return encounter, history, fragments, exp_time
+
     new_enc = randchoice(viable_enc)
 
     # Przygotowanie encountera do wyświetlenia
     encounter["D1"] = new_enc["desc"]
-    encounter["D4"] = f"{(len(history)+1)*10}% Ukończonej Ekspedycji"
+    
     if enc_type == "Story":
-        encounter["T"] = "Ekspedycja przemierza wyspę."
-        encounter["D2"] = ""
-        encounter["D3"] = "*Możesz odegrać scenkę w rp w oczekiwaniu na następne wydarzenie.*"
+        encounter["T"] = "Ekspedycja przeszukuje okolicę."
+        encounter["D2"] = "Ruszacie bezpiecznie dalej."
+        encounter["D3"] = "Możesz odegrać scenkę w rp w oczekiwaniu na następne wydarzenie."
         encounter["C"] = "#4169E1"
 
     if enc_type == "Combat":
@@ -95,32 +141,41 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine"):
         encounter["C"] = "#CE2029"
 
     if enc_type == "Miniboss":
+        fragments += new_enc["fragments"]
         encounter["T"] = "Ekspedycja trafia na antyczne zło!"
         encounter["D2"] = new_enc["bold"]
         encounter["D3"] = new_enc["info"]
         encounter["C"] = "#9f00C5"
-    
+        
     if enc_type == "Trap":
         encounter["T"] = "Ekspedycja wpada w kłopoty."
-        encounter["D2"] = new_enc["bold"]
+        encounter["D2"] = ext_roll(new_enc["bold"])
         encounter["D3"] = ext_roll(new_enc["info"])
         encounter["C"] = "#367588"
     
     if enc_type == "Check":
         encounter["T"] = "Ekspedycja odnajduje coś ciekawego."
-        encounter["D2"] = new_enc["bold"]
+        encounter["D2"] = ext_roll(new_enc["bold"])
         encounter["D3"] = f"Użyj **{syntax} [win/fail]** aby zobaczyć efekt."
         encounter["C"] = "#556B2F"
     
     if enc_type == "Treasure":
+        fragments += new_enc["fragments"]
         encounter["T"] = "Ekspedycja dotarła do końca."
-        encounter["D2"] = "Ekspedycja została zakończona sukcesem."
-        encounter["D3"] = ext_roll(new_enc["info"])
+        bonus_frag = 0
+        while fragments % 6 != 0:
+            fragments += 1
+            bonus_frag += 1
+        if bonus_frag == 0:
+            encounter["D3"] = f"Podczas tej ekspedycji zebraliście łącznie {fragments} AF."
+        else:
+            encounter["D3"] = f"Dokładniej przeszukując znaleźliście jeszcze {bonus_frag} AF i zebraliście łącznie {fragments} AF podczas tej ekspedycji."
+        encounter["D2"] = ext_roll(new_enc["info"])
         encounter["C"] = "#DAA520"
-
-
-    
+        
 
     # Przekazanie Info
-    history[len(history)+1] = {"type": enc_type,"id":randint(30)}
-    return encounter, history
+    exp_time = time()//1 + INTERVAL
+    encounter["D4"] = f"Fragmenty: {fragments} | Postęp: {(len(history)+1)*10}%"
+    history[len(history)+1] = {"type": enc_type,"id":new_enc["key"]}
+    return encounter, history, fragments, exp_time
