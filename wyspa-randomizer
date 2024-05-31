@@ -56,7 +56,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
             encounter["D1"] = last_enc["desc"]
             encounter["D2"] = last_enc["win"]
             encounter["D3"] = f"Możesz kontynuuować ekspedycję."
-            encounter["D4"] = f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%"
+            encounter["D4"] = f"Antyczne Fragmenty: {fragments} | Postęp: {(len(history))*10}%"
             encounter["C"] = "#556B2F"
             return encounter, history, fragments, exp_time
     
@@ -69,7 +69,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
             encounter["D1"] = last_enc["desc"]
             encounter["D2"] = last_enc["fail"]
             encounter["D3"] = f"Możesz kontynuuować ekspedycję."
-            encounter["D4"] = f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%"
+            encounter["D4"] = f"Antyczne Fragmenty: {fragments} | Postęp: {(len(history))*10}%"
             encounter["C"] = "#556B2F"
             return encounter, history, fragments, exp_time
 
@@ -81,7 +81,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
         "D1": "",
         "D2": f"Użyj komendy ponownie <t:{round(exp_time)}:R>",
         "D3": "Możesz odegrać scenkę w RP w oczekiwaniu na następne wydarzenie.",
-        "D4": f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%",
+        "D4": f"Antyczne Fragmenty: {fragments} | Postęp: {(len(history))*10}%",
         "C": "#556B2F"
         }
         return encounter, history, fragments, exp_time
@@ -137,7 +137,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
     if enc_type == "Story":
         encounter["T"] = "Ekspedycja przeszukuje okolicę."
         encounter["D2"] = "Ruszacie bezpiecznie dalej."
-        encounter["D3"] = "Możesz odegrać scenkę w rp w oczekiwaniu na następne wydarzenie."
+        encounter["D3"] = "Możesz odegrać scenkę w RP w oczekiwaniu na następne wydarzenie."
         encounter["C"] = "#4169E1"
 
     if enc_type == "Combat":
@@ -182,6 +182,6 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
 
     # Przekazanie Info
     exp_time = time()//1 + INTERVAL
-    encounter["D4"] = f"Fragmenty: {fragments} | Postęp: {(len(history)+1)*10}%"
+    encounter["D4"] = f"Antyczne Fragmenty: {fragments} | Postęp: {(len(history)+1)*10}%"
     history[len(history)+1] = {"type": enc_type,"id":new_enc["key"]}
     return encounter, history, fragments, exp_time
