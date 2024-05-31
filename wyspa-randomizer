@@ -14,7 +14,13 @@ def ext_roll(text):
 
 def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, exp_time = 0, new_exp = False, INTERVAL=300):
     #Gvary
-    enc_list_raw = load_yaml(get_gvar("b448b3e8-1895-48a0-8373-b82b792b027a"))
+    enc_list = []
+    for i in gvar:
+        enc_list.append(load_yaml(get_gvar(i)))
+    enc_list_raw = {}
+    enc_list_raw = {}
+    for d in enc_list:
+        enc_list_raw.update(d)
     fragments = int(fragments)
 
     if new_exp == True:
