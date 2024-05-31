@@ -80,7 +80,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
         "T": "Ekspedycja podróżuje.",
         "D1": "",
         "D2": f"Użyj komendy ponownie <t:{round(exp_time)}:R>",
-        "D3": "Możesz odegrać scenkę w rp w oczekiwaniu na następne wydarzenie.",
+        "D3": "Możesz odegrać scenkę w RP w oczekiwaniu na następne wydarzenie.",
         "D4": f"Fragmenty: {fragments} | Postęp: {(len(history))*10}%",
         "C": "#556B2F"
         }
@@ -142,15 +142,15 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
 
     if enc_type == "Combat":
         encounter["T"] = "Ekspedycja napotyka wrogów!"
-        encounter["D2"] = new_enc["bold"]
-        encounter["D3"] = new_enc["info"]
+        encounter["D2"] = ext_roll(new_enc["bold"])
+        encounter["D3"] = ext_roll(new_enc["info"])
         encounter["C"] = "#CE2029"
 
     if enc_type == "Miniboss":
         fragments += new_enc["fragments"]
         encounter["T"] = "Ekspedycja trafia na antyczne zło!"
-        encounter["D2"] = new_enc["bold"]
-        encounter["D3"] = new_enc["info"]
+        encounter["D2"] = ext_roll(new_enc["bold"])
+        encounter["D3"] = ext_roll(new_enc["info"])
         encounter["C"] = "#9f00C5"
         
     if enc_type == "Trap":
