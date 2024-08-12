@@ -1,17 +1,37 @@
-!servalias pogoda embed 
+!alias pogoda embed 
 <drac2>
 #Basic Setup
 syntax=f'{ctx.prefix}{ctx.alias}'
 thumb=f'-thumb https://cdn.discordapp.com/attachments/1146201490881519646/1204736156449775646/dune_2872822.png?ex=65d5d0fa&is=65c35bfa&hm=8421b91f065a1f2b8cbca83ef49661c61b57fc1d192dd1038042ac2f53a27e9e&'
 footer=f'-footer "{syntax} | komenda dostępna dla wszystkich"'
 
-curr_time = int((time()-1705460400) // 86400)
-JSON = load_json(get_gvar("24bc437f-fd89-415d-88d2-8dc62164f07b"))
+JSON = load_json(get_gvar("24bc437f-fd89-415d-88d2-8dc62164f07b")) # Gvar z pogodą
+
+lfm = 1711335600
+cyc = 29.53
+
+test = 6*86400 + 6*3600
+
+now = time()
+days_passed = (now + test - lfm) / 86400
+days_passed = int(days_passed)
+dsf = days_passed % cyc
+ttf = cyc - dsf
+
+if ttf < 1:
+    msg = 'Mamy pełnię księżyca! 🌕'
+elif ttf == 1:
+    msg = f'Pozostał {int(ttf)} dzień do pełni księżyca.'
+elif ttf in [2, 3]:
+    msg = f'Pozostały {int(ttf)} dni do pełni księżyca.'
+else:
+    msg = f'Pozostało {int(ttf)} dni do pełni księżyca.'
+
+
+dw = int(days_passed)
 J = JSON["weather"]
-
-w_number = ((curr_time * 7) + 3 + (int(curr_time//len(J)) * len(J))) % len(J)
-
+w_number = ((dw * 7) + 3 + (int(dw//len(J)) * len(J))) % len(J)
 text=J[w_number-1]
 
-return f'embed {thumb} -title "Pogoda" -desc "Dywinacja Świątyni Świtu na dzisiejszy dzień brzmi:" -color {color} -f "---\n{text}\n---" {footer}'
+return f'embed {thumb} -title "<t:{int(now + test)}:f> [{days_passed}] na dziś brzmi następująco:" -color {color} -f "---\n{text}\n---\n\n{msg}" {footer}'
 </drac2>
