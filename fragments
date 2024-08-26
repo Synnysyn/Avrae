@@ -14,7 +14,7 @@ af = int(ancientFragments)
 lvl=get('level')
 ch.set_cvar_nx("xp", "+900")
 _xp=int(xp)
-REWARDS={(1,4):1500,(5,8):2500,(9,20):4000}
+REWARDS={(1,4):1200,(5,8):2200,(9,12):3500,(13,20):4500}
 
 if len(args)==0: return f'embed -title "{name} zagląda do torby." -desc "Antyczne Fragmenty: {af} / 160" {suffix}'
 if args[0]=="xp": 
@@ -43,11 +43,14 @@ if len(args)==1:
 # MERCHANT
 def merchant(gp, wgp, af, lvl):
     while True: 
-        if af<100 or wgp<1000 or lvl<9: break
-        gp+=1000; wgp-=1000; af-=100
+        if af<120 or wgp<1300 or lvl<13: break
+        gp+=1300; wgp-=1300; af-=120
     while True: 
-        if af<50 or wgp<400 or lvl<5: break
-        gp+=400; wgp-=400; af-=50
+        if af<100 or wgp<900 or lvl<9: break
+        gp+=900; wgp-=900; af-=100
+    while True: 
+        if af<50 or wgp<350 or lvl<5: break
+        gp+=350; wgp-=350; af-=50
     while True: 
         if af<30 or wgp<150: break
         gp+=150; wgp-=150; af-=30

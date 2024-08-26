@@ -7,31 +7,27 @@ footer=f'-footer "{syntax} | komenda dostępna dla wszystkich"'
 
 JSON = load_json(get_gvar("24bc437f-fd89-415d-88d2-8dc62164f07b")) # Gvar z pogodą
 
-lfm = 1711335600
+lfm = 1711332000
 cyc = 29.53
-
-test = 6*86400 + 6*3600
+test = 0*86400 + 0*3600
 
 now = time()
-days_passed = (now + test - lfm) / 86400
-days_passed = int(days_passed)
+days_passed = int((now + test - lfm) // 86400)
 dsf = days_passed % cyc
-ttf = cyc - dsf
+ttf = int(cyc - dsf)
 
 if ttf < 1:
     msg = 'Mamy pełnię księżyca! 🌕'
 elif ttf == 1:
-    msg = f'Pozostał {int(ttf)} dzień do pełni księżyca.'
-elif ttf in [2, 3]:
-    msg = f'Pozostały {int(ttf)} dni do pełni księżyca.'
+    msg = f'Pozostał {ttf} dzień do pełni księżyca.'
+elif ttf in [2, 3, 4]:
+    msg = f'Pozostały {ttf} dni do pełni księżyca.'
 else:
-    msg = f'Pozostało {int(ttf)} dni do pełni księżyca.'
+    msg = f'Pozostało {ttf} dni do pełni księżyca.'
 
-
-dw = int(days_passed)
 J = JSON["weather"]
-w_number = ((dw * 7) + 3 + (int(dw//len(J)) * len(J))) % len(J)
-text=J[w_number-1]
-
-return f'embed {thumb} -title "<t:{int(now + test)}:f> [{days_passed}] na dziś brzmi następująco:" -color {color} -f "---\n{text}\n---\n\n{msg}" {footer}'
+using(Q="57a16594-b5d7-488c-9e2f-bc4b7c24e8a0")
+text=Q.get_next(days_passed, J)
+#<t:{int(now + test)}:f> [{days_passed} | {ttf}]
+return f'embed {thumb} -title "Dywinacja na dziś brzmi następująco:" -color {color} -f "---\n{text}\n---\n\n{msg}" {footer}'
 </drac2>
