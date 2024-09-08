@@ -46,7 +46,7 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
         h_nr[history[i]["type"]] += 1
 
     # Jeżeli encounter potrzebuje informacji zwrotnej, to przesyłamy odpowiedni tekst
-    if result == "win":
+    if result == "win" or "Win" or "wwin":
         if history == {}: return
         last_item = list(history.values())[-1]
         last_enc = enc_list_raw[last_item['id']]
