@@ -1,16 +1,17 @@
 !alias wyspa embed 
 <drac2>
 using(A="48aebce8-76cc-4057-9853-abd809e14008")  #ENGINE
-enc_table=["b448b3e8-1895-48a0-8373-b82b792b027a","28c3b49a-42f0-4d70-a630-d4217a59963a"] #TABLES
-INTERVAL=30 #COOLDOWN (in sec)
+enc_table=["2d54c789-a6e8-4d22-b8fc-b2134792ef84","f8efed14-53df-41d8-b177-a8860c7066ce","43a09183-5035-4f04-b2ca-d1f7d46a62c3"] #TABLES
+INTERVAL=60 #COOLDOWN (in sec)
 args,ch,new_exp,result = &ARGS&,character(),False,False
 syntax=f'{ctx.prefix}{ctx.alias}'
-F=f'-footer "{syntax} | {syntax} start | Made by Synnysyn"'
+F=f'-footer "{syntax} | {syntax} start | Made by Synnysyn, Edited by Sziergiej, Chriss"'
 ch.set_cvar_nx("expHistory", dump_yaml({}))
 ch.set_cvar_nx("expFragments", 0)
 ch.set_cvar_nx("expTime", 0)
 if "start" in args: new_exp = True
-if "win" in args or "fail" in args: result = args[0]
+if any(x in args for x in ["win", "Win", "wwin"]): result = "win"
+if "fail" in args: result = "fail"
 E,history,frg,exp_time = A.travel(enc_table,get('level'),get('expHistory'),result,syntax,get('expFragments'),get('expTime'),new_exp,INTERVAL)
 ch.set_cvar("expHistory", dump_yaml(history))
 ch.set_cvar("expFragments", frg)
