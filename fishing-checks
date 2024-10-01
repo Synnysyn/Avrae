@@ -1,0 +1,39 @@
+####################
+# FISHING CHECKS
+####################
+def fishing_locate(ch):
+    skills = {
+        'survival': ch.skills.survival.value,
+        'perception': ch.skills.perception.value,
+        'investigation': ch.skills.investigation.value,
+        'nature': ch.skills.nature.value
+    }
+    chosen_skill = [skill for skill, value in skills.items() if value == max(skills.values())][0]
+    rolled = vroll(ch.skills[chosen_skill].d20())
+    return rolled, chosen_skill
+
+def fishing_pull(ch):
+    skills = {
+        'athletics': ch.skills.athletics.value,
+        'acrobatics': ch.skills.acrobatics.value,
+        'survival': ch.skills.survival.value,
+    }
+    chosen_skill = [skill for skill, value in skills.items() if value == max(skills.values())][0]
+    rolled = vroll(ch.skills[chosen_skill].d20())
+    return rolled, chosen_skill
+
+def storage(deposit, ch):
+    bag_name = 'Połów'
+    harvest=1
+    loot_added=False
+    bag = load_json(get('bags', []))
+    for bag_cat in bag:
+        if bag_name.lower() in bag_cat[0].lower():
+            bag_name = bag_cat[0]
+            bag_loot_count = bag_cat[1][deposit] if deposit in list(bag_cat[1].keys()) else 0
+            bag_cat[1][deposit] = bag_cat[1][deposit] + harvest if bag_loot_count > 0 else harvest
+            loot_added = True
+            break
+    if not loot_added:
+        bag.append([bag_name, {deposit: harvest}])
+    ch.set_cvar('bags', dump_json(bag))

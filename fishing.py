@@ -5,58 +5,54 @@
 # całość w jednym chain, jeżeli skończy się liczba prób dziennie to ryba odpływa
 ###
 
-!test <drac2> 
-ch = character()
+!alias fisherman embed <drac2> 
+#SETUP
+using(A="604b2b28-b437-4779-9a3a-8d71fffa5c77")
+ch=character()
+prefix=f'-title "{ch.name} idzie na ryby!"'
+suffix=f'-color {color} -footer "{ctx.prefix}{ctx.alias} | made by Synnysyn" -thumb {image}'
+dc_l=15
+dc_p="2d20kh1+2"
+f_name="Okoń"
+md=0
+text=[]
+#SZUKANIE RYBY
+rd, cs = A.fishing_locate(ch)
+text.append(f"Rozglądasz się za dobrym miejscem...\nDC {dc_l}\n{cs.capitalize()}: {rd.result}")
+if rd.total >= dc_l:
+    text.append(":green_circle: **Miejsce jest dobre, coś złapało się haczyka!**")
+else:
+    text.append(":x: **Spławik ani drgnie, musisz zmienić miejsce.**")
+    jtext = "\n".join(text)
+    return f'embed {prefix} -desc "{jtext}" {suffix}'
+while True:
+    dc_f=int(roll(dc_p))+md
+    rd2, cs2 = A.fishing_pull(ch)
+    text.append(f"\nSiłujesz się z rybą...\nDC {dc_f}\n{cs2.capitalize()}: {rd2.result}")
+    if rd2.total >= dc_f:
+        text.append(f":green_circle: **Wyławiasz coś z wody...**\n\n**{f_name}** ląduje prosto do twojej torby!")
+        break
+    elif (rd2.total + 10) >= dc_f:
+        text.append(":orange_circle: **Ryba nie daje za wygraną!**")
+        md+=5
+    else:
+        text.append(":x: **Ryba zerwała się z haczyka!**")
+        jtext = "\n".join(text)
+        return f'embed {prefix} -desc "{jtext}" {suffix}'
 
-def fishing_locate(ch):
-    skills = {
-        'survival': ch.skills.survival.value,
-        'perception': ch.skills.perception.value,
-        'investigation': ch.skills.investigation.value,
-        'nature': ch.skills.nature.value
-    }
-    chosen_skill = [skill for skill, value in skills.items() if value == max(skills.values())][0]
-    rolled = vroll(ch.skills[chosen_skill].d20())
-    return rolled, chosen_skill
-
-rolled, chosen_skill = fishing_locate(ch)
-
-return f"{rolled.result} | {rolled.total} | {chosen_skill}" 
+jtext = "\n".join(text)
+return f'embed {prefix} -desc "{jtext}" {suffix}'
 </drac2>
 
-#!test <drac2> return f"{vroll(character().skills['acrobatics'].d20())}" </drac2>
-
-
-h1=max(get_raw().skills.survival,get_raw().skills.survival,get('dexterityMod'),get('intelligenceMod'),get('strengthMod'),get('wisdomMod'))
-
-_A='downtimePoints'
-character().set_cvar_nx(_A,0)
-points=int(downtimePoints)
-gold=0
-base_gp=int(AAA[0])
-value=0
-if base_gp >= 50:
-    value = -(-base_gp // 500)
-total=0
-if points<value:text="doesn't have enough downtime.";description=f"You need at least {value} DT to complete this task. Current DT: ({points})";return
-if character().coinpurse.get_coins()['gp']<base_gp:text="doesn't have enough GP.";description=f"You need at least {base_gp} GP to complete this task. \nCurrent GP: ({character().coinpurse.get_coins()['gp']})";return
-points-=value
-character().set_cvar(_A,points)
-highest=max(get('charismaMod'),get('constitutionMod'),get('dexterityMod'),get('intelligenceMod'),get('strengthMod'),get('wisdomMod'))
-expert=''
-if len(AAA)==2:
-    total+=int(AAA[1])
-    if total==2:expert=' with expertise'
-    if total==1:expert=' with proficiency'
-c_roll=randint(1, 20)
-total+=c_roll+highest
-if total<=5:gold=.9
-if 6<=total<=11:gold=.8
-if 12<=total<=17:gold=.7
-if 18<=total<=23:gold=.6
-if 24<=total:gold=.5
-
-wynik = int(base_gp * gold)
-c_coins = character().coinpurse.modify_coins(gp=-1*wynik)
-text = f'spends downtime ({value} DT) crafting an item{expert}, which costs:'
-description=f'**{wynik } GP** (Rolled {c_roll}), now has {character().coinpurse.get_coins()["gp"]} GP'
+""" bag_name = 'Fish'
+				bag = load_json(get('bags', []))
+				for bag_cat in bag:
+					if bag_name.lower() in bag_cat[0].lower():
+						bag_name = bag_cat[0]
+						bag_loot_count = bag_cat[1][deposit] if deposit in list(bag_cat[1].keys()) else 0
+						bag_cat[1][deposit] = bag_cat[1][deposit] + harvest if bag_loot_count > 0 else harvest
+						loot_added = True
+						break
+				if not loot_added:
+					bag.append([bag_name, {deposit: harvest}])
+				c.set_cvar('bags', dump_json(bag)) """
