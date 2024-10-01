@@ -15,7 +15,7 @@ def fishing_locate(ch):
 def fishing_pull(ch):
     skills = {
         'athletics': ch.skills.athletics.value,
-        'acrobatics': ch.skills.acrobatics.value,
+        'acrobatics': ch.skills.sleightOfHand.value,
         'survival': ch.skills.survival.value,
     }
     chosen_skill = [skill for skill, value in skills.items() if value == max(skills.values())][0]
@@ -23,17 +23,27 @@ def fishing_pull(ch):
     return rolled, chosen_skill
 
 def storage(deposit, ch):
-    bag_name = 'Połów'
-    harvest=1
-    loot_added=False
+    bag_name = 'Ryby'
+    harvest = 1
     bag = load_json(get('bags', []))
+    tester=""
+
+    # Flaga do oznaczenia, czy kategoria "Ryby" została znaleziona
+    found_bag = False
+
+    # Szukamy kategorii "Ryby" w worku
     for bag_cat in bag:
-        if bag_name.lower() in bag_cat[0].lower():
-            bag_name = bag_cat[0]
-            bag_loot_count = bag_cat[1][deposit] if deposit in list(bag_cat[1].keys()) else 0
-            bag_cat[1][deposit] = bag_cat[1][deposit] + harvest if bag_loot_count > 0 else harvest
-            loot_added = True
+        tester=bag_cat
+        # Porównujemy nazwę kategorii z uwzględnieniem wielkości liter
+        if bag_cat[0].lower() == bag_name.lower():
+            found_bag = True
+            # Dodajemy rybę lub aktualizujemy ilość
+            bag_cat[1][deposit] = bag_cat[1].get(deposit, 0) + harvest
             break
-    if not loot_added:
-        bag.append([bag_name, {deposit: harvest}])
+
+    # Jeśli kategoria "Ryby" nie została znaleziona, tworzymy nową
+    if not found_bag:
+        bag.append([bag_name, {tester: harvest}])
+    
+    # Zapisujemy zaktualizowaną torbę
     ch.set_cvar('bags', dump_json(bag))
