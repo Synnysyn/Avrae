@@ -1,21 +1,10 @@
-###
-# użycie komendy -> wybranie najwyższego z (survival/perception/investigation/nature) -> wylosowanie ryby i ustalenia DC -> jeżeli zdane, to ryba złapała się na haczyk
-# test drugi -> wybranie najwyższego z (athletics/acrobatics/survival) -> rzut ryby vs rzut gracza -> sprawdzenie rezultatów
-# jeżeli gracz wygrał, to ryba do torby, jeżeli ryba wygrała, to dalej na haczyku, jeżeli ryba wygrała znacząco to się zrywa i trzeba szukać na nowo
-# całość w jednym chain, jeżeli skończy się liczba prób dziennie to ryba odpływa
-###
-
 !alias fisherman embed <drac2> 
 #SETUP
 using(A="604b2b28-b437-4779-9a3a-8d71fffa5c77")
-ch=character()
-prefix=f'-title "{ch.name} idzie na ryby!"'
-suffix=f'-color {color} -footer "{ctx.prefix}{ctx.alias} | made by Synnysyn" -thumb {image}'
-dc_l=15
-dc_p="2d20kh1+2"
-f_name="Okoń"
-md=0
-text=[]
+ch, fs = character(), randchoice(list(load_yaml(get_gvar("622ff7e6-467e-4ac8-9c56-a192193b5275")).values()))
+prefix, suffix = f'-title "{ch.name} idzie na ryby!"', f'-color {color} -footer "{ctx.prefix}{ctx.alias} | made by Synnysyn" -thumb {image}'
+dc_l, dc_p, f_name, md, text = fs.find_dc, fs.contest, fs.name, 0, []
+
 #SZUKANIE RYBY
 rd, cs = A.fishing_locate(ch)
 text.append(f"Rozglądasz się za dobrym miejscem...\nDC {dc_l}\n{cs.capitalize()}: {rd.result}")
@@ -30,6 +19,7 @@ while True:
     rd2, cs2 = A.fishing_pull(ch)
     text.append(f"\nSiłujesz się z rybą...\nDC {dc_f}\n{cs2.capitalize()}: {rd2.result}")
     if rd2.total >= dc_f:
+        A.storage(f_name,ch)
         text.append(f":green_circle: **Wyławiasz coś z wody...**\n\n**{f_name}** ląduje prosto do twojej torby!")
         break
     elif (rd2.total + 10) >= dc_f:
@@ -43,16 +33,3 @@ while True:
 jtext = "\n".join(text)
 return f'embed {prefix} -desc "{jtext}" {suffix}'
 </drac2>
-
-""" bag_name = 'Fish'
-				bag = load_json(get('bags', []))
-				for bag_cat in bag:
-					if bag_name.lower() in bag_cat[0].lower():
-						bag_name = bag_cat[0]
-						bag_loot_count = bag_cat[1][deposit] if deposit in list(bag_cat[1].keys()) else 0
-						bag_cat[1][deposit] = bag_cat[1][deposit] + harvest if bag_loot_count > 0 else harvest
-						loot_added = True
-						break
-				if not loot_added:
-					bag.append([bag_name, {deposit: harvest}])
-				c.set_cvar('bags', dump_json(bag)) """
