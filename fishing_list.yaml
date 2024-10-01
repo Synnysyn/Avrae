@@ -1,0 +1,138 @@
+##########################
+# Potential Catches GVAR #
+##########################
+
+101:
+  name: "Zniszczony Skórzany But"
+  find_dc: 5
+  contest: "2d20kl1"
+
+102:
+  name: "Pomarańczowa Muszla"
+  find_dc: 5
+  contest: "2d20kl1"
+
+103:
+  name: "Niebieska Muszla"
+  find_dc: 5
+  contest: "2d20kl1"
+
+104:
+  name: "Rozgwiazda"
+  find_dc: 5
+  contest: "2d20kh1+2"
+
+105:
+  name: "Szprotka"
+  find_dc: 5
+  contest: "2d20kh1+2"
+
+106:
+  name: "Sardynka"
+  find_dc: 5
+  contest: "2d20kh1+2"
+
+107:
+  name: "Konik Morski"
+  find_dc: 5
+  contest: "2d20kh1+2"
+
+108:
+  name: "Śledź"
+  find_dc: 10
+  contest: "2d20kh1+3"
+
+109:
+  name: "Tuńczyk"
+  find_dc: 10
+  contest: "2d20kh1+3"
+
+110:
+  name: "Makrela"
+  find_dc: 10
+  contest: "2d20kh1+3"
+
+111:
+  name: "Mintaj"
+  find_dc: 10
+  contest: "2d20kh1+3"
+
+112:
+  name: "Sola Zwyczajna"
+  find_dc: 10
+  contest: "2d20kh1+3"
+
+113:
+  name: "Krewetka Tygrysia"
+  find_dc: 10
+  contest: "2d20kh1+3"
+
+114:
+  name: "Okoń"
+  find_dc: 15
+  contest: "2d20kh1+4"
+
+115:
+  name: "Flądra"
+  find_dc: 15
+  contest: "2d20kh1+4"
+
+116:
+  name: "Łosoś Szlachetny"
+  find_dc: 15
+  contest: "2d20kh1+4"
+
+117:
+  name: "Dorsz"
+  find_dc: 15
+  contest: "2d20kh1+4"
+
+118:
+  name: "Krab Cętkowany"
+  find_dc: 15
+  contest: "2d20kh1+4"
+
+119:
+  name: "Blobfish (Niejadalny)"
+  find_dc: 15
+  contest: "2d20kh1+4"
+
+120:
+  name: "Marlin Czarny"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+121:
+  name: "Murena"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+122:
+  name: "Kałamarnica"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+123:
+  name: "Barakuda"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+124:
+  name: "Ośmiornica"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+125:
+  name: "Homar"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+126:
+  name: "Płaszczka"
+  find_dc: 20
+  contest: "2d20kh1+5"
+
+127:
+  name: "Żółw Morski"
+  find_dc: 20
+  contest: "2d20kh1+5"
