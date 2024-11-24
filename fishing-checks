@@ -25,15 +25,13 @@ def fishing_pull(ch):
 def storage(deposit, ch):
     bag_name = 'Ryby'
     harvest = 1
-    bag = load_json(get('bags', []))
-    tester=""
+    bag = load_json(ch.get_cvar('bags', []))
 
     # Flaga do oznaczenia, czy kategoria "Ryby" została znaleziona
     found_bag = False
 
     # Szukamy kategorii "Ryby" w worku
     for bag_cat in bag:
-        tester=bag_cat
         # Porównujemy nazwę kategorii z uwzględnieniem wielkości liter
         if bag_cat[0].lower() == bag_name.lower():
             found_bag = True
@@ -43,7 +41,7 @@ def storage(deposit, ch):
 
     # Jeśli kategoria "Ryby" nie została znaleziona, tworzymy nową
     if not found_bag:
-        bag.append([bag_name, {tester: harvest}])
+        bag.append([bag_name, {deposit: harvest}])
     
     # Zapisujemy zaktualizowaną torbę
     ch.set_cvar('bags', dump_json(bag))
