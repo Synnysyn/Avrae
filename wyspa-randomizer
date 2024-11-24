@@ -98,10 +98,10 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
     if len(history) == 4 and h_nr["Combat"] == 0: enc_type = "Combat"
     if len(history) == 8 and h_nr["Combat"] <= 1: enc_type = "Combat"
     if len(history) <= 8 and h_nr["Miniboss"] == 0 and randint(48) == 0: enc_type = "Miniboss"
-    if len(history) == 0: enc_type = "Story"
+    if len(history) == 0: enc_type = "Trap"
     if len(history) == 9: enc_type = "Treasure"
     if len(history) == 10:
-        enc_type = "Story"
+        enc_type = "Trap"
         history = {}
         fragments = 0
         exp_time = 0
@@ -136,7 +136,10 @@ def travel(gvar, lvl, history, result = False, syntax = "!mine", fragments = 0, 
     
     if enc_type == "Story":
         encounter["T"] = "Ekspedycja przeszukuje okolicę."
-        encounter["D2"] = "Ruszacie bezpiecznie dalej."
+        if not new_enc.get("bold"):
+            encounter["D2"] = "Ruszacie bezpiecznie dalej."
+        else:
+            encounter["D2"] = ext_roll(new_enc["bold"])
         encounter["D3"] = "Możesz odegrać scenkę w RP w oczekiwaniu na następne wydarzenie."
         encounter["C"] = "#4169E1"
 
