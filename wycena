@@ -1,0 +1,36 @@
+!alias wycena embed 
+<drac2>
+args,ch = &ARGS&,character()
+syntax=f'{ctx.prefix}{ctx.alias} [ranga] [1-12] | Made by Synnysyn'
+thumb=f'-thumb {image}'
+suffix=f'-color {color} -footer "{syntax}" {thumb}'
+_A='questTotal'
+ch.set_cvar_nx(_A,0)
+quest_total=int(questTotal)
+
+if len(args)<2: return f'embed -title "{name} sprawdza swój dziennik." -desc "Misje ukończone: {quest_total}" {suffix}'
+
+rnk_input=args[0].lower()
+suc_input=int(args[1])
+lvl_input=get('level')
+
+def get_xp(lvl,rnk,suc):
+ def _err(t):return None,None,t
+ T={1:0,2:300,3:900,4:2700,5:6500,6:14000,7:23000,8:34000,9:48000,10:64000,11:85000,12:100000,13:120000,14:140000,15:165000,16:195000,17:225000,18:265000,19:305000,20:355000}
+ R=(700,1300,2200,2400);M=[.1*i for i in range(1,13)]
+ M_R={'pył':1,'pyl':1,'p':1,'iskra':2,'i':2,'rozbłysk':3,'rozblysk':3,'r':3,'zenit':4,'z':4}
+ rk=M_R.get(rnk);x=T.get(lvl+1)
+ if not rk:return _err('Błąd: Taka ranga nie istnieje.')
+ if not(1<=suc<=12):return _err('Błąd: Stopień sukcesu wynosi od 1 do 12.')
+ return x,int(R[rk-1]*M[suc-1]),''
+
+max_xp,xp_reward,e=get_xp(lvl_input,rnk_input,suc_input)
+if e:return f'embed -title "{name} popełnił błąd." -desc "{e}" {suffix}'
+
+current_xp=int(xp)+xp_reward
+quest_total+=1
+character().set_cvar(_A,quest_total)
+character().set_cvar('xp','+'+str(current_xp))
+
+return f'embed -title "Zadanie wykonane przez: {name} ({questTotal} łącznie)" -desc "Zdobyto {xp_reward} XP i brakuje {max_xp-current_xp} XP do następnego poziomu." {suffix}'
+</drac2>

@@ -5,7 +5,7 @@ syntax=f'{ctx.prefix}{ctx.alias}'
 thumb=f'-thumb https://cdn.discordapp.com/attachments/1146201490881519646/1204736156449775646/dune_2872822.png?ex=65d5d0fa&is=65c35bfa&hm=8421b91f065a1f2b8cbca83ef49661c61b57fc1d192dd1038042ac2f53a27e9e&'
 footer=f'-footer "{syntax} | komenda dostępna dla wszystkich"'
 
-JSON = load_json(get_gvar("24bc437f-fd89-415d-88d2-8dc62164f07b")) # Gvar z pogodą
+JSON = load_json(get_gvar("2ea25da7-f7f6-4859-95ea-3f243c37a0f2")) # Gvar z pogodą
 
 lfm = 1711332000
 cyc = 29.53
@@ -27,7 +27,15 @@ else:
 
 J = JSON["weather"]
 using(Q="57a16594-b5d7-488c-9e2f-bc4b7c24e8a0")
-text=Q.get_next(days_passed, J)
-#<t:{int(now + test)}:f> [{days_passed} | {ttf}]
-return f'embed {thumb} -title "Dywinacja na dziś brzmi następująco:" -color {color} -f "---\n{text}\n---\n\n{msg}" {footer}'
+# TUTAJ
+entry = Q.get_next(days_passed, J)
+
+try:
+    parsed = load_json(entry)
+    return f'embed {thumb} -title "Dywinacja na dziś brzmi następująco:" -color {color} -f "---\n{parsed["description"]}\n---\n🌡️ Temperatura: {parsed["temperature"]}°C\n\n{msg}" {footer}'
+except:
+    pass
+
+return f'embed {thumb} -title "Dywinacja na dziś brzmi następująco:" -color {color} -f "---\n{entry}\n---\n\n{msg}" {footer}'
+
 </drac2>

@@ -1,0 +1,24 @@
+!alias magicshop embed <drac2>
+items=load_json(get_gvar("b187622b-3b78-44c3-a90f-7eab5e7de9dd"))
+itemlist=[]
+itemamounts = [str(len(items["common"])),str(len(items["uncommon"])),str(len(items["rare"]))]
+j,itemroll,a="","",""
+modif=1.2 # MODYFIKATOR
+u='&1&'.replace("very", "veryrare")
+u = "common" if u not in ["common","uncommon","rare"] else u
+if u == 'common':
+    itemroll='2d4+5'
+    j=f'1d{itemamounts[0]}'
+elif u == 'uncommon':
+    itemroll='1d4+6'
+    j=f'1d{itemamounts[1]}'
+elif u == 'rare':
+    itemroll='1d3+5'
+    j=f'1d{itemamounts[2]}'
+
+itemtotal=roll(itemroll)
+x=vroll(j)
+for i in range (0,int(itemtotal)): itemlist.append(items[(([x for x in items if u in x]+['common'])[0])][(vroll(j)).total-1])
+for i in range(0, int(itemtotal)): a = a + "**" + str(itemlist[i]['item']) + "** for **" + str(round(int(itemlist[i]['cost']) * modif)) + "GP**" + (" + **armor cost**" if 'armor' in itemlist[i] and itemlist[i]['armor'] == 1 else "") + "\n"
+return f'-title "Welcome to the Magic Shop!" -desc "There are **{itemtotal}** **{u}** magic items in stock!\nThe items in stock are:\n{a}\n" -footer "!magicshop [common/uncommon/rare] | Developed by topper#0294 🤖, edited by Chriss, Synnysyn"'
+</drac2>
